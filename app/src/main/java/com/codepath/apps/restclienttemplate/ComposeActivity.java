@@ -1,8 +1,10 @@
 package com.codepath.apps.restclienttemplate;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,9 +45,9 @@ public class ComposeActivity extends AppCompatActivity {
 
         client = TwitterApp.getRestClient(this);
 
-        /*
         // Set initial character count to max value
-        tvCharCount.setText(MAX_TWEET_LENGTH);
+        String maxChars = String.valueOf(MAX_TWEET_LENGTH);
+        tvCharCount.setText(maxChars);
 
         // Set typing listener on EditText
         etCompose.addTextChangedListener(new TextWatcher() {
@@ -57,7 +59,21 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Fires right as the text is being changed (even supplies the range of text)
-                tvCharCount.setText(MAX_TWEET_LENGTH - charSequence.length());
+                int length = etCompose.length();
+                if (length <= MAX_TWEET_LENGTH) {
+                    String chars = String.valueOf(MAX_TWEET_LENGTH - length);
+                    tvCharCount.setText(chars);
+                    tvCharCount.setTextColor(Color.GRAY);
+                    btnTweet.setEnabled(true);
+                    btnTweet.setBackgroundColor(getResources().getColor(R.color.twitter_blue));
+                }
+                else {
+                    // when max limit has been exceeded
+                    tvCharCount.setText("0");
+                    tvCharCount.setTextColor(Color.RED);
+                    btnTweet.setEnabled(false);
+                    btnTweet.setBackgroundColor(Color.GRAY);
+                }
             }
 
             @Override
@@ -65,7 +81,6 @@ public class ComposeActivity extends AppCompatActivity {
                 // Fires right after the text has changed
             }
         });
-        */
 
         // Set click listener on button
         btnTweet.setOnClickListener(new View.OnClickListener() {
