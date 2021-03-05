@@ -43,7 +43,7 @@ public class TwitterClient extends OAuthBaseClient {
 				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 		// To log out
-		// clearAccessToken();
+		//clearAccessToken();
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
@@ -54,6 +54,14 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("count", 25);
 		params.put("since_id", 1);
 		client.get(apiUrl, params, handler);
+	}
+
+	public void publishTweet(String tweetContent, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/update.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("status", tweetContent);
+		client.post(apiUrl, params,"", handler);
 	}
 
 	public void getNextPageOfTweets(JsonHttpResponseHandler handler, long maxId) {
